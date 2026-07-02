@@ -22,16 +22,22 @@ HEADERS = {
 }
 
 SOURCES = [
-    # HN Who's Hiring threads are good for freelance writers
+    # HN — self-publishing / book launch / indie author discussions
     {
-        "name": "HN Writing Threads",
-        "url": "https://hn.algolia.com/api/v1/search?query=writing&tags=story&hitsPerPage=50",
+        "name": "HN Self-Publishing & Book Launch",
+        "url": "https://hn.algolia.com/api/v1/search?query=self-publishing+book+launch+indie+author&tags=story&hitsPerPage=50",
         "type": "api"
     },
-    # ProductHunt for writing tools
+    # HN — ARC readers / book reviews / marketing
     {
-        "name": "ProductHunt Writing",
-        "url": "https://api.producthunt.com/v1/posts?category=writing-tools",
+        "name": "HN Book Marketing & Reviews",
+        "url": "https://hn.algolia.com/api/v1/search?query=book+marketing+reviews+author&tags=story&hitsPerPage=50",
+        "type": "api"
+    },
+    # Reddit — self-publishing community (via Pushshift, no auth needed)
+    {
+        "name": "Reddit r/selfpublish",
+        "url": "https://api.pullpush.io/reddit/search/submission/?subreddit=selfpublish&size=25&sort=score",
         "type": "api"
     }
 ]
@@ -68,6 +74,34 @@ def process_hn_data(data: dict) -> list:
     return leads
 
 
+def process_reddit_data(data: dict) -> list:
+    """Extract leads from Pushshift/Reddit search results."""
+    leads = []
+    submissions = data.get("data", [])
+    for post in submissions[:20]:
+        title = post.get("title", "")
+        # Skip if no real title
+        if not title or len(title) < 10:
+            continue
+        url = post.get("url", "")
+        # Use reddit permalink if no external url
+        permalink = post.get("permalink", "")
+        full_url = url or f"https://reddit.com{permalink}"
+        score = post.get("score", 0)
+        num_comments = post.get("num_comments", 0)
+        relevance = score + (num_comments * 2)  # Weight comments as engagement
+        if relevance < 3:
+            continue
+        leads.append({
+            "source": f"Reddit r/{post.get('subreddit', 'selfpublish')}",
+            "title": title,
+            "url": full_url,
+            "relevance_score": relevance,
+            "discovered_at": datetime.now().isoformat()
+        })
+    return leads
+
+
 def save_leads(leads: list, filename: str = "leads.csv"):
     """Save leads to CSV."""
     if not leads:
@@ -93,7 +127,10 @@ def main():
     for source in SOURCES:
         print(f"📡 Scanning: {source['name']}")
         data = fetch_json(source["url"])
-        leads = process_hn_data(data)
+        if "reddit" in source["name"].lower():
+            leads = process_reddit_data(data)
+        else:
+            leads = process_hn_data(data)
         all_leads.extend(leads)
         print(f"   Found {len(leads)} leads")
         time.sleep(1)  # Rate limiting
