@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LaunchShelf — The Indie Author Book Launch Kit</title>
+  <meta name="description" content="A complete 90-day book launch system for self-published authors: day-by-day plan, ARC outreach templates, KDP listing prompts & email sequences.">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0d1017;
+      color: #e2e4e8;
+      line-height: 1.6;
+    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+    .hero {
+      min-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 80px 24px;
+      background: linear-gradient(135deg, #0d1017 0%, #1a1f2e 50%, #0d1017 100%);
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #f59e0b, #f97316);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+    }
+    .hero p {
+      font-size: 1.15rem;
+      color: #94a3b8;
+      max-width: 600px;
+      margin-bottom: 12px;
+    }
+    .hero .price-badge {
+      display: inline-block;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 8px 24px;
+      border-radius: 50px;
+      font-size: 1rem;
+      margin-bottom: 24px;
+    }
+    .hero .price-badge strong { color: #f59e0b; }
+    .cta-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #f59e0b, #f97316);
+      color: #0d1017;
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 16px 48px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(245, 158, 11, 0.3);
+    }
+
+    .features {
+      padding: 80px 0;
+      background: #0f131c;
+    }
+    .features h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 48px;
+      color: #f1f5f9;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .feature-card {
+      background: #161b26;
+      border: 1px solid #1e2538;
+      border-radius: 16px;
+      padding: 32px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .feature-card:hover {
+      border-color: #f59e0b;
+      transform: translateY(-4px);
+    }
+    .feature-card .emoji { font-size: 2rem; margin-bottom: 12px; }
+    .feature-card h3 { font-size: 1.2rem; margin-bottom: 8px; color: #f1f5f9; }
+    .feature-card p { color: #94a3b8; font-size: 0.95rem; }
+
+    .pricing {
+      padding: 80px 0;
+      background: linear-gradient(180deg, #0f131c, #0d1017);
+    }
+    .pricing h2 { text-align: center; font-size: 2rem; margin-bottom: 48px; color: #f1f5f9; }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      max-width: 900px; margin: 0 auto;
+    }
+    .pricing-card {
+      background: #161b26;
+      border: 1px solid #1e2538;
+      border-radius: 16px;
+      padding: 32px;
+      text-align: center;
+    }
+    .pricing-card.popular {
+      border-color: #f59e0b;
+      position: relative;
+    }
+    .pricing-card.popular::before {
+      content: 'Most Popular';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #f59e0b;
+      color: #0d1017;
+      padding: 4px 16px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .pricing-card .plan { font-size: 1.1rem; color: #94a3b8; margin-bottom: 8px; }
+    .pricing-card .price { font-size: 2.5rem; font-weight: 800; margin-bottom: 16px; color: #f1f5f9; }
+    .pricing-card .price span { font-size: 1rem; color: #94a3b8; }
+    .pricing-card ul { list-style: none; text-align: left; margin-bottom: 24px; }
+    .pricing-card li { padding: 6px 0; font-size: 0.9rem; color: #cbd5e1; }
+    .pricing-card li::before { content: '✓ '; color: #f59e0b; }
+    .pricing-card .cta-secondary {
+      display: inline-block;
+      border: 1px solid #f59e0b;
+      color: #f59e0b;
+      padding: 12px 36px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .pricing-card .cta-secondary:hover { background: rgba(245, 158, 11, 0.1); }
+    .pricing-card.popular .cta-secondary {
+      background: #f59e0b;
+      color: #0d1017;
+    }
+    .pricing-card.popular .cta-secondary:hover { opacity: 0.9; }
+
+    .faq {
+      padding: 80px 0;
+      background: #0f131c;
+    }
+    .faq h2 { text-align: center; font-size: 2rem; margin-bottom: 48px; color: #f1f5f9; }
+    .faq-list { max-width: 700px; margin: 0 auto; }
+    .faq-item {
+      border-bottom: 1px solid #1e2538;
+      padding: 16px 0;
+    }
+    .faq-question {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-weight: 600;
+      user-select: none;
+      color: #f1f5f9;
+    }
+    .faq-question::after {
+      content: '+';
+      font-size: 1.3rem;
+      color: #f59e0b;
+    }
+    .faq-item.open .faq-question::after { content: '−'; }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      color: #94a3b8;
+      font-size: 0.9rem;
+    }
+    .faq-item.open .faq-answer { max-height: 200px; padding-top: 12px; }
+
+    .testimonials {
+      padding: 80px 0;
+      background: #0d1017;
+    }
+    .testimonials h2 { text-align: center; font-size: 2rem; margin-bottom: 48px; color: #f1f5f9; }
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .testimonial-card {
+      background: #161b26;
+      border: 1px solid #1e2538;
+      border-radius: 16px;
+      padding: 24px;
+    }
+    .testimonial-card .text { color: #94a3b8; font-style: italic; margin-bottom: 12px; }
+    .testimonial-card .author { color: #f59e0b; font-weight: 600; font-size: 0.9rem; }
+    .testimonial-card .author span { color: #64748b; font-weight: 400; }
+
+    .email-capture {
+      padding: 80px 0;
+      text-align: center;
+      background: linear-gradient(135deg, #1a1f2e, #0d1017);
+    }
+    .email-capture h2 { font-size: 2rem; margin-bottom: 12px; color: #f1f5f9; }
+    .email-capture p { color: #94a3b8; margin-bottom: 32px; }
+    .email-capture form {
+      display: flex;
+      gap: 12px;
+      max-width: 500px;
+      margin: 0 auto;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .email-capture input {
+      flex: 1;
+      min-width: 250px;
+      padding: 14px 20px;
+      border-radius: 50px;
+      border: 1px solid #1e2538;
+      background: #161b26;
+      color: #e2e4e8;
+      font-size: 1rem;
+      outline: none;
+    }
+    .email-capture input:focus { border-color: #f59e0b; }
+    .email-capture button {
+      background: linear-gradient(135deg, #f59e0b, #f97316);
+      color: #0d1017;
+      font-weight: 700;
+      padding: 14px 32px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    footer {
+      padding: 24px 0;
+      text-align: center;
+      color: #475569;
+      font-size: 0.85rem;
+      background: #0d1017;
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 2rem; }
+      .email-capture form { flex-direction: column; align-items: stretch; }
+      .email-capture input { min-width: auto; }
+    }
+  </style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="price-badge">From <strong>$29</strong> — 30-day guarantee</div>
+  <h1>You Wrote a Book.<br>Now Launch It Like You Mean It.</h1>
+  <p>A complete 90-day book launch system for self-published authors: day-by-day plan, ARC outreach templates, KDP listing prompts & email sequences.</p>
+  <p style="font-size:0.95rem;color:#64748b;margin-bottom:24px;">No audience required. No ad spend needed.</p>
+  <a href="#pricing" class="cta-button">Get LaunchShelf →</a>
+</section>
+
+<section class="features" id="features">
+  <div class="container">
+    <h2>What's Inside the Kit</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="emoji">📅</div>
+        <h3>90-Day Launch Plan</h3>
+        <p>Day-by-day roadmap starting 12 weeks before launch. Every task in order with time estimates.</p>
+      </div>
+      <div class="feature-card">
+        <div class="emoji">📨</div>
+        <h3>12 ARC Reader Templates</h3>
+        <p>Copy-paste emails and DMs to recruit advance readers from free communities — even with zero followers.</p>
+      </div>
+      <div class="feature-card">
+        <div class="emoji">🔍</div>
+        <h3>25 KDP Listing Prompts</h3>
+        <p>AI prompts to generate blurbs, keywords, categories, editorial reviews, and A+ content for your Amazon listing.</p>
+      </div>
+      <div class="feature-card">
+        <div class="emoji">💌</div>
+        <h3>Reader Email Sequences</h3>
+        <p>5-email welcome series + 6-email launch series. Written to sound like an author, not a marketer.</p>
+      </div>
+      <div class="feature-card">
+        <div class="emoji">📱</div>
+        <h3>30-Day Social Calendar</h3>
+        <p>A month of post ideas with hooks and templates for Instagram, TikTok, and X — tuned for authors.</p>
+      </div>
+      <div class="feature-card">
+        <div class="emoji">🤖</div>
+        <h3>Automation Scripts</h3>
+        <p>Lead scraper, analytics tracker, and auto-onboarding. Find affiliate partners and track your funnel.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials">
+  <div class="container">
+    <h2>Early Reviews</h2>
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <div class="text">"The 90-day launch plan saved me from making every first-book mistake. I had 15 ARC reviews on launch day."</div>
+        <div class="author">— Sarah K. <span>Self-published author</span></div>
+      </div>
+      <div class="testimonial-card">
+        <div class="text">"The KDP Prompt Pack alone is worth the price. My blurb went from generic to actually converting."</div>
+        <div class="author">— Marcus J. <span>First-time author</span></div>
+      </div>
+      <div class="testimonial-card">
+        <div class="text">"I launched with zero followers and made sales on day one. The ARC templates made it possible."</div>
+        <div class="author">— Elena R. <span>Indie author</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="container">
+    <h2>Choose Your Kit</h2>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="plan">Starter</div>
+        <div class="price">$29</div>
+        <ul>
+          <li>90-Day Launch Plan</li>
+          <li>KDP Prompt Pack (25 prompts)</li>
+          <li>Markdown format</li>
+        </ul>
+        <a href="#" class="cta-secondary">Buy on Gumroad</a>
+      </div>
+      <div class="pricing-card popular">
+        <div class="plan">Complete Kit</div>
+        <div class="price">$49</div>
+        <ul>
+          <li>All 5 modules</li>
+          <li>ARC outreach templates</li>
+          <li>Email sequences (11 emails)</li>
+          <li>Social promo calendar</li>
+          <li>Automation scripts</li>
+          <li>Lifetime updates</li>
+        </ul>
+        <a href="#" class="cta-secondary">Buy on Gumroad →</a>
+      </div>
+      <div class="pricing-card">
+        <div class="plan">Author Pro</div>
+        <div class="price">$99</div>
+        <ul>
+          <li>Everything in Complete</li>
+          <li>Commercial license</li>
+          <li>Series/relaunch playbooks</li>
+          <li>Box-set launch variant</li>
+        </ul>
+        <a href="#" class="cta-secondary">Buy on Gumroad</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="container">
+    <h2>FAQs</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-question">Fiction or nonfiction?</div>
+        <div class="faq-answer">Both — modules include variants for each. The launch plan, ARC templates, and email sequences work for either.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Do I need paid AI tools?</div>
+        <div class="faq-answer">No — all KDP prompts work on free tiers of Claude, ChatGPT, or Gemini.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">What format are the files in?</div>
+        <div class="faq-answer">Markdown + PDF. Opens in Notion, Docs, Word, or Obsidian.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Is this a subscription?</div>
+        <div class="faq-answer">No. One-time payment, lifetime access. Complete and Pro get free updates.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">What if I'm not satisfied?</div>
+        <div class="faq-answer">30-day full refund, no questions asked.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="email-capture" id="signup">
+  <div class="container">
+    <h2>Get the Free Launch Week Checklist</h2>
+    <p>A 1-page PDF with the critical path for launch week. Sent instantly.</p>
+    <form action="YOUR_FORM_ID" method="POST">
+      <input type="email" name="email" placeholder="your@email.com" required>
+      <button type="submit">Get Free Checklist →</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026 LaunchShelf. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.faq-question').forEach(q => {
+    q.addEventListener('click', () => {
+      q.parentElement.classList.toggle('open');
+    });
+  });
+</script>
+</body>
+</html>
